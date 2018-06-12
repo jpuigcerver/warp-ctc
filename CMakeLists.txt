@@ -48,7 +48,7 @@ IF (CUDA_VERSION GREATER 7.6)
 ENDIF()
 
 IF (CUDA_VERSION GREATER 8.9)
-    set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_70,code=sm_70")
+    set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_60,code=sm_70")
 ENDIF()
 
 if (NOT APPLE)
@@ -81,6 +81,7 @@ IF (WITH_GPU)
     IF (!Torch_FOUND)
         TARGET_LINK_LIBRARIES(warpctc ${CUDA_curand_LIBRARY})
     ENDIF()
+    TARGET_LINK_LIBRARIES(warpctc rt)
 
     add_executable(test_cpu tests/test_cpu.cpp tests/random.cpp )
     TARGET_LINK_LIBRARIES(test_cpu warpctc)
